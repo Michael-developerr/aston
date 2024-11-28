@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { Child } from "./Child";
+
+export class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+    };
+    this.handleClick = this.handleClick.bind(this); 
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    console.log('componentDidMount: Компонент смонтирован');
+  }
+
+  componentDidUpdate() {
+    console.log('componentDidUpdate: Компонент был обновлён');
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount: Компонент будет размонтирован');
+  }
+
+  handleClick(event) {
+    event.preventDefault(); 
+    console.log('Submitted name:', this.state.name); 
+  }
+
+  handleChange(event) {
+    this.setState({ name: event.target.value });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Форма ввода имени</h1>
+        <form>
+          <label>
+            Имя:
+            <input 
+              type="text" 
+              value={this.state.name} 
+              onChange={this.handleChange} 
+            />
+          </label>
+          <button type="submit" onClick={this.handleClick}>Отправить</button>
+        </form>
+        {this.state.name && <p>Вы ввели: {this.state.name}</p>} 
+        <Child name={this.state.name} age={25} isActive={true} /> 
+      </div>
+    );
+  }
 }
 
 export default App;
